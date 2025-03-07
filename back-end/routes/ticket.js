@@ -2,9 +2,9 @@ const express = require("express");
 
 const router = express.Router();
 
-const { handleGenerateTicket, handleFindTicket } = require();
+const { handleGenerateTicket, handleGetTicket } = require("../controllers/ticket");
 
-router.post("/", handleGenerateTicket);
-router.get("/", handleFindTicket);
+router.post("/ticket",handleGenerateTicket);
+router.get("/ticket",handleGetTicket )
 
-module.exports(router);
+module.exports = router;
