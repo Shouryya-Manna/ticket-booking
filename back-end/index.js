@@ -1,5 +1,5 @@
 const express = require("express");
-const PORT = 8002;
+const PORT = 8000;
 const { connectDB } = require("./connection");
 const app = express();
 const eventRouter = require("./routes/event");

@@ -8,8 +8,8 @@ const schema = new mongoose.Schema({
   },
 
   event_id: {
-    type: mongoose.Schema.Types.ObjectId, // Reference to EVENT model
-    ref: "event",
+    type: mongoose.Schema.Types.ObjectId, // Correct reference type
+    ref: "event", // Reference to EVENT collection
     required: true,
   },
 
