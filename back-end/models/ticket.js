@@ -7,7 +7,7 @@ const schema = new mongoose.Schema({
     unique: true,
   },
 
-  event_id: {
+  event: {
     type: mongoose.Schema.Types.ObjectId, // Correct reference type
     ref: "event", // Reference to EVENT collection
     required: true,
