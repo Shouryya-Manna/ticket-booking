@@ -5,6 +5,7 @@ const EVENT = require("../models/event");
 async function handleGenerateEvent(req, res) {
   const eventId = uuidv4();
   console.log(eventId);
+  
   const body = req.body;
   await EVENT.create({
     event_id: eventId,
@@ -18,8 +19,8 @@ async function handleGenerateEvent(req, res) {
 
 
 async function handleGetEvent(req, res) {
-  const event = await EVENT.findById(req.params.id);
-  if(!event) res.json(404).json({msg:"Event not found"});
+  const event = await EVENT.findOne({event_id:req.params.id});
+  if (!event) return res.status(404).json({ msg: "Event not found" });
   return res.json(event);
 }
 

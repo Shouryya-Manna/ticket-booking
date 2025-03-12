@@ -10,8 +10,8 @@ async function handleGenerateTicket(req, res) {
     const { event_id, user_name, user_age } = req.body;
    
     // ✅ Check if event exists
-    const event = await EVENT.findById(event_id);
-    console.log(event._id);
+    const event = await EVENT.findOne({event_id: event_id});
+    console.log(event.event_id);
 
     if (!event) {
       return res.status(404).json({ error: "Event not found" });
@@ -22,7 +22,7 @@ async function handleGenerateTicket(req, res) {
     // ✅ Create ticket
     const ticket = await TICKET.create({
       ticket_id: ticket_Id,
-      event: event._id,  // Use event_id directly (no need to create new ObjectId)
+      event: event.event_id,  // Use event_id directly (no need to create new ObjectId)
       name: user_name,
       age: user_age,
     });
