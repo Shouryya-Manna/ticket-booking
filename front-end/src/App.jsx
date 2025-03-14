@@ -1,7 +1,7 @@
 import Home from "./components/Home"
 import Navbar from "./components/Navbar";
 import GenerateMovie from "./components/GenerateMovie";
-import Ticket from "./components/Ticket";
+import GenerateTicket from "./components/GenerateTicket";
 import { createBrowserRouter, RouterProvider } from "react-router";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     },
     {
       path:"/ticket",
-      element:<><Navbar/><Ticket/></>
+      element:<><Navbar/><GenerateTicket/></>
     },
   ]);
 

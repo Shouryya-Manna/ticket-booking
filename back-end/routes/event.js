@@ -2,9 +2,9 @@ const express = require("express");
 
 const router = express.Router();
 
-const { handleGenerateEvent, handleGetEvent } = require("../controllers/event");
+const { handleGenerateEvent, handleGetEvent, handleGetAllEvents } = require("../controllers/event");
 
 router.post("/events", handleGenerateEvent);
-router.get("/events", handleGetEvent);
+router.get("/events", handleGetAllEvents);
 
 module.exports = router;

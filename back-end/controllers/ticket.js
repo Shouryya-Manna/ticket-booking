@@ -4,13 +4,12 @@ const TICKET = require("../models/ticket");
 const EVENT = require("../models/event");
 
 async function handleGenerateTicket(req, res) {
-  // const objectId = new mongoose.Types.ObjectId(event_id);
+ 
   try {
    
-    const { event_id, user_name, user_age } = req.body;
+    const {event_name, user_name, user_age } = req.body;
    
-    // ✅ Check if event exists
-    const event = await EVENT.findOne({event_id: event_id});
+    const event = await EVENT.findOne({event_name: event_name});
     console.log(event.event_id);
 
     if (!event) {
@@ -18,11 +17,11 @@ async function handleGenerateTicket(req, res) {
     }
     const ticket_Id = uuidv4();
 
-   
-    // ✅ Create ticket
+
     const ticket = await TICKET.create({
       ticket_id: ticket_Id,
-      event: event.event_id,  // Use event_id directly (no need to create new ObjectId)
+      event_id: event.event_id,  
+      event_name: event_name,
       name: user_name,
       age: user_age,
     });

@@ -7,6 +7,12 @@ const schema = new mongoose.Schema({
     unique: true,
   },
 
+  event_id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
   event: {
     type: String,
     required: true,

@@ -24,4 +24,9 @@ async function handleGetEvent(req, res) {
   return res.json(event);
 }
 
-module.exports = { handleGenerateEvent, handleGetEvent };
+async function handleGetAllEvents(req,res){
+  const allevents = await EVENT.find();
+  return res.json(allevents);
+}
+
+module.exports = { handleGenerateEvent, handleGetEvent, handleGetAllEvents };
