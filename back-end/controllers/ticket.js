@@ -4,24 +4,21 @@ const TICKET = require("../models/ticket");
 const EVENT = require("../models/event");
 
 async function handleGenerateTicket(req, res) {
- 
   try {
-   
-    const {event_name, user_name, user_age } = req.body;
-   
-    const event = await EVENT.findOne({event_name: event_name});
-    console.log(event.event_id);
+    const { event_id, user_name, user_age } = req.body;
+
+    const event = await EVENT.findOne({ event_id });
 
     if (!event) {
       return res.status(404).json({ error: "Event not found" });
     }
-    const ticket_Id = uuidv4();
 
+    const ticket_Id = uuidv4();
 
     const ticket = await TICKET.create({
       ticket_id: ticket_Id,
-      event_id: event.event_id,  
-      event_name: event_name,
+      event_id: event.event_id,
+      event: event.event_name,
       name: user_name,
       age: user_age,
     });
