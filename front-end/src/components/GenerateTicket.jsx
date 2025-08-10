@@ -1,6 +1,7 @@
 import React from "react";
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
+import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -28,18 +29,18 @@ function GenerateTicket() {
   //     });
   // }, []);
 
-  const {data} = useQuery({
-    queryKey:["events"],
-    queryFn: fetchMovieInfo
-  })
+  const { data } = useQuery({
+    queryKey: ["events"],
+    queryFn: fetchMovieInfo,
+  });
 
-  const createTicket = useMutation({
-  mutationFn: createTicketInfo,
-  onSuccess: (data)=>{
-    console.log("Ticket successfully created", data)
-  }
-})
- 
+  const { mutate: createTicket, isPending } = useMutation({
+    mutationFn: createTicketInfo,
+    onSuccess: () => {
+      console.log("Ticket Created Successfully");
+    },
+  });
+
   function handleUserName(e) {
     setUserName(e.target.value);
   }
@@ -47,18 +48,14 @@ function GenerateTicket() {
     setUserAge(e.target.value);
   }
 
-
-
-
-
-
-  function handleSubmit() {
+  const handleSubmit = () => {
     // axios
     //   .post("http://localhost:8000/ticket", {
     //     event_id: selectedEventId,
-    //     name: userName,
-    //     age: userAge,
+    //     user_name: userName,
+    //     user_age: userAge,
     //   })
+
     //   .then((res) => {
     //     console.log("Ticket created...", res.data);
     //   })
@@ -66,12 +63,12 @@ function GenerateTicket() {
     //     console.log("Error creating ticket", err);
     //   });
 
-    createTicket.mutate({
+    createTicket({
       event_id: selectedEventId,
-      name: userName,
-      age: userAge
-    })
-  }
+      user_name: userName,
+      user_age: Number(userAge),
+    });
+  };
 
   return (
     <div className="grid place-content-center">
@@ -108,6 +105,7 @@ function GenerateTicket() {
       <Button
         className="h-10 bg-lime-100 border-green-600 border-2 text-black hover:bg-lime-300 rounded-lg"
         onClick={handleSubmit}
+        disabled={isPending}
       >
         Submit
       </Button>

@@ -15,6 +15,7 @@ connectDB("mongodb://localhost:27017/ticket-booking").then(() => {
 
 app.use(cors());
 
+
 app.use(eventRouter);
 app.use(ticketRouter);
 
