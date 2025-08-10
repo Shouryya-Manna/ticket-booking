@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
+import { Calendar } from "../components/ui/calendar";
 
 function GenerateMovie() {
 
@@ -56,6 +57,8 @@ function GenerateMovie() {
           type="text"
           onChange={handleEventDate}
         />
+        {/* <Calendar/> */}
+
         <div>Enter Event Venue:</div>
         <input
           className="h-10 border-2 border-sky-600 mt-5 mb-16 rounded-lg "

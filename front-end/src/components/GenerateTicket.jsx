@@ -1,7 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { Button } from "./ui/button";
-import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -9,24 +8,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createTicketInfo, fetchMovieInfo } from "@/Api/api";
 
 function GenerateTicket() {
-  const [events, setEvents] = useState([]);
+  // const [events, setEvents] = useState([]);
   const [selectedEventId, setSelectedEventId] = useState("");
   const [userName, setUserName] = useState("");
   const [userAge, setUserAge] = useState("");
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/events")
-      .then((res) => {
-        setEvents(res.data);
-      })
-      .catch((err) => {
-        console.log("Error fetching events:", err.message);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8000/events")
+  //     .then((res) => {
+  //       setEvents(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error fetching events:", err.message);
+  //     });
+  // }, []);
 
+  const {data} = useQuery({
+    queryKey:["events"],
+    queryFn: fetchMovieInfo
+  })
+
+  const createTicket = useMutation({
+  mutationFn: createTicketInfo,
+  onSuccess: (data)=>{
+    console.log("Ticket successfully created", data)
+  }
+})
  
   function handleUserName(e) {
     setUserName(e.target.value);
@@ -34,19 +46,31 @@ function GenerateTicket() {
   function handleUserAge(e) {
     setUserAge(e.target.value);
   }
+
+
+
+
+
+
   function handleSubmit() {
-    axios
-      .post("http://localhost:8000/ticket", {
-        event_id: selectedEventId,
-        name: userName,
-        age: userAge,
-      })
-      .then((res) => {
-        console.log("Ticket created...", res.data);
-      })
-      .catch((err) => {
-        console.log("Error creating ticket", err);
-      });
+    // axios
+    //   .post("http://localhost:8000/ticket", {
+    //     event_id: selectedEventId,
+    //     name: userName,
+    //     age: userAge,
+    //   })
+    //   .then((res) => {
+    //     console.log("Ticket created...", res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error creating ticket", err);
+    //   });
+
+    createTicket.mutate({
+      event_id: selectedEventId,
+      name: userName,
+      age: userAge
+    })
   }
 
   return (
@@ -61,14 +85,14 @@ function GenerateTicket() {
             <SelectValue placeholder="Select Events" />
           </SelectTrigger>
           <SelectContent>
-            {events.map((event) => (
-              <SelectItem key={event.event_id} value={event.event_id}>
-                {event.event_name}
+            {data?.map((data) => (
+              <SelectItem key={data.event_id} value={data.event_id}>
+                {data.event_name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-
+        <div className="pt-10">Enter your name: </div>
         <input
           className="h-10 border-2 border-sky-600 mt-5 mb-10 rounded-lg"
           type="text"
