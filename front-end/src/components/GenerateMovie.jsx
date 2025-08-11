@@ -2,42 +2,56 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { Calendar } from "../components/ui/calendar";
+import { useMutation } from "@tanstack/react-query";
+import { createMovieInfo } from "@/Api/api";
 
 function GenerateMovie() {
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventVenue, setEventVenue] = useState("");
 
-  const [eventName,setEventName] = useState("");
-  const [eventDate,setEventDate] = useState("");
-  const [eventVenue,setEventVenue] = useState("");
+  const movieMutation = useMutation({
+    mutationFn: createMovieInfo,
+    onSuccess: () => {
+      console.log("Event Created ...");
+    },
+    onError: (err)=>{
+      console.log("Error Creating Event", err);
+    }
+  });
 
-
-  function handleEventName(e){
+  function handleEventName(e) {
     setEventName(e.target.value);
   }
-  
-  function handleEventDate(e){
+
+  function handleEventDate(e) {
     setEventDate(e.target.value);
   }
 
-  
-  function handleEventVenue(e){
+  function handleEventVenue(e) {
     setEventVenue(e.target.value);
   }
 
   function handleSubmit() {
-    axios
-      .post("http://localhost:8000/events", {
-        event_name: eventName,
-        event_date: eventDate,
-        event_venue: eventVenue,
-      })
-      .then((response) => {
-        console.log("Event Created...", response.data);
-      })
-      .catch((error) => {
-        console.error("Error creating event:", error);
-      });
+    // axios
+    //   .post("http://localhost:8000/events", {
+    //     event_name: eventName,
+    //     event_date: eventDate,
+    //     event_venue: eventVenue,
+    //   })
+    //   .then((response) => {
+    //     console.log("Event Created...", response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error creating event:", error);
+    //   });
+
+    movieMutation.mutate({
+      event_name: eventName,
+      event_date: eventDate,
+      event_venue: eventVenue,
+    });
   }
-  
 
   return (
     <div className="grid place-content-center">
@@ -66,8 +80,10 @@ function GenerateMovie() {
           onChange={handleEventVenue}
         />
       </div>
-      <Button className="h-10 bg-lime-100 border-green-600 border-2 text-black hover:bg-lime-300 rounded-lg"
-      onClick={handleSubmit}>
+      <Button
+        className="h-10 bg-lime-100 border-green-600 border-2 text-black hover:bg-lime-300 rounded-lg"
+        onClick={handleSubmit}
+      >
         Submit
       </Button>
     </div>

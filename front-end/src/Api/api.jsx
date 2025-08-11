@@ -10,7 +10,12 @@ export const fetchMovieInfo = async ()=>{
     return res.status===200?res.data:[];
 }
 
-export const createTicketInfo = async (ticket)=>{
-    const res = await api.post("/ticket",ticket );
+export const createTicketInfo = async (newTicket)=>{
+    const res = await api.post("/ticket",newTicket );
     return res.status===200?res.data:[];
+}
+
+export const createMovieInfo = async(newEvent)=>{
+    const res = await api.post("/events",newEvent);
+    return res.status === 200 ? res.data:[];
 }
