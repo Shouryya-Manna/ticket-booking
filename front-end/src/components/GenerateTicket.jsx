@@ -34,7 +34,7 @@ function GenerateTicket() {
     queryFn: fetchMovieInfo,
   });
 
-  const { mutate: createTicket, isPending } = useMutation({
+  const { mutate: createTicket} = useMutation({
     mutationFn: createTicketInfo,
     onSuccess: () => {
       console.log("Ticket Created Successfully");
